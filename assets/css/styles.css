@@ -1,0 +1,2850 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
+/* Variáveis de design do tema claro (cores, sombras, raios, fontes), usadas por todo o sistema */
+:root {
+  color-scheme: light;
+  --font-display: "Manrope", "Segoe UI", sans-serif;
+  --font-body: "DM Sans", "Segoe UI", sans-serif;
+  --ink: #3d232a;
+  --ink-soft: #765a62;
+  --canvas: #fff6f8;
+  --surface: #ffffff;
+  --surface-raised: #fffbfc;
+  --surface-soft: #faeaee;
+  --line: #eed7dd;
+  --brand: #bd3c5b;
+  --brand-deep: #7d263e;
+  --brand-soft: #f9dfe6;
+  --mint: #358d79;
+  --mint-soft: #dff2ed;
+  --coral: #d85c77;
+  --coral-soft: #fbe3e9;
+  --amber: #b67a1f;
+  --amber-soft: #fff1d7;
+  --danger: #b52f4a;
+  --danger-soft: #fbe4e9;
+  --sidebar: #74233a;
+  --sidebar-ink: #fff5f7;
+  --shadow: 0 18px 45px rgba(125, 38, 62, .10);
+  --shadow-sm: 0 8px 24px rgba(125, 38, 62, .08);
+  --radius-xl: 26px;
+  --radius-lg: 18px;
+  --radius: 13px;
+  --sidebar-width: 260px;
+  --topbar-height: 84px;
+}
+
+/* Variáveis do tema escuro: sobrescrevem as cores do :root quando o usuário alterna o tema */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8f2f1;
+  --ink-soft: #9fb7b7;
+  --canvas: #09191d;
+  --surface: #10252a;
+  --surface-raised: #132c32;
+  --surface-soft: #19363c;
+  --line: #24444a;
+  --brand: #61c7c6;
+  --brand-deep: #b7e8e5;
+  --brand-soft: #153b40;
+  --mint: #67d0ab;
+  --mint-soft: #173b31;
+  --coral: #ff9a85;
+  --coral-soft: #432923;
+  --amber: #f2bd61;
+  --amber-soft: #3d311c;
+  --danger: #ff9299;
+  --danger-soft: #44252a;
+  --sidebar: #071518;
+  --sidebar-ink: #e9f5f3;
+  --shadow: 0 18px 45px rgba(0, 0, 0, .28);
+  --shadow-sm: 0 8px 24px rgba(0, 0, 0, .20);
+}
+
+/* Base global: reset de caixa, rolagem suave, tipografia, fundo da página, links, botões e SVGs */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+/* Atributo [hidden]: garante que elementos ocultos realmente sumam da tela */
+[hidden] {
+  display: none !important;
+}
+
+/* Foco visível por teclado (acessibilidade) */
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand) 45%, transparent);
+  outline-offset: 2px;
+}
+
+/* Link 'Pular para o conteúdo' (acessibilidade): só aparece quando recebe foco pelo teclado */
+.skip-link {
+  position: fixed;
+  z-index: 999;
+  left: 16px;
+  top: -60px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--brand-deep);
+  color: var(--surface);
+  transition: .2s;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+.eyebrow,
+
+/* Rótulo visível apenas para leitores de tela */
+.nav-label {
+  color: var(--brand);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Botões só com ícone (ex.: alternar tema, abrir menu) */
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.icon-button:hover {
+  color: var(--brand);
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+
+/* Botões padrão do sistema: base, estado hover e desabilitado */
+.button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 0 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .18s ease;
+  text-decoration: none;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Variações do botão: primário, secundário, fantasma, perigo e largura total */
+.button--primary {
+  background: var(--brand-deep);
+  color: #fff;
+}
+
+html[data-theme="dark"] .button--primary {
+  background: #59bab9;
+  color: #07191c;
+}
+
+.button--secondary {
+  background: var(--brand-soft);
+  color: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 20%, var(--line));
+}
+
+.button--ghost {
+  background: var(--surface);
+  color: var(--ink-soft);
+  border-color: var(--line);
+}
+
+.button--danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.button--wide {
+  width: 100%;
+  justify-content: space-between;
+  padding-inline: 20px;
+}
+
+/* Botão com aparência de texto/link (ações discretas) */
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Identidade */
+
+/* Marca do sistema (logo e nome) exibida na lateral e nas telas de acesso */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.brand__mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px 14px 14px 4px;
+  background: linear-gradient(145deg, #df6682, #a72f4e);
+  color: #fff;
+  font-size: 1.1rem;
+  box-shadow: 0 8px 22px rgba(167, 47, 78, .24);
+}
+
+.brand strong,
+.brand small {
+  display: block;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.brand strong {
+  font-size: 1.1rem;
+  letter-spacing: -.04em;
+}
+
+.brand small {
+  margin-top: 3px;
+  color: #f1bdc9;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* Marca em tamanho ampliado, usada na tela de login/cadastro */
+.brand--hero {
+  color: #fff;
+}
+
+.brand--hero .brand__mark {
+  width: 52px;
+  height: 52px;
+}
+
+.brand--hero strong {
+  font-size: 1.35rem;
+}
+
+/* Autenticação */
+
+/* TELA DE ACESSO: layout dividido em painel visual e painel do formulário */
+.auth-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(460px, 1.15fr) minmax(420px, .85fr);
+  background: var(--surface);
+}
+
+/* Painel visual (lado esquerdo) da tela de acesso, com fundo e título de apresentação */
+.auth-visual {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(34px, 5vw, 76px);
+  color: #fff;
+  background: radial-gradient(circle at 85% 15%, rgba(255, 178, 195, .34), transparent 24%), radial-gradient(circle at 15% 90%, rgba(255, 232, 237, .16), transparent 28%), linear-gradient(145deg, #682036, #9f3150 62%, #c34a67);
+}
+
+.auth-visual::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 50%;
+  right: -230px;
+  top: 15%;
+  box-shadow: 0 0 0 70px rgba(255,255,255,.025), 0 0 0 150px rgba(255,255,255,.018);
+}
+
+.auth-visual__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+.auth-visual__copy .eyebrow {
+  color: #ffd0da;
+}
+
+.auth-visual h1 {
+  margin: 15px 0 20px;
+  font: 800 clamp(2.5rem, 5vw, 5.7rem)/.98 var(--font-display);
+  letter-spacing: -.065em;
+}
+
+.auth-visual p {
+  max-width: 560px;
+  margin: 0;
+  color: #ffe3e9;
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+}
+
+/* Aviso de privacidade exibido no painel visual da tela de acesso */
+.privacy-note {
+  position: relative;
+  z-index: 1;
+  max-width: 380px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: #ffe3e9;
+  font-size: .82rem;
+}
+
+.privacy-note i {
+  color: #ffc0cf;
+  font-size: 1.4rem;
+}
+
+/* Linha de pulso (batimento) decorativa animada do painel visual */
+.pulse-line {
+  display: flex;
+  align-items: center;
+  width: min(80%, 620px);
+  opacity: .5;
+}
+
+.pulse-line span {
+  flex: 1;
+  height: 1px;
+  background: #f5c6d1;
+}
+
+.pulse-line i {
+  width: 58px;
+  height: 44px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 58 44'%3E%3Cpath d='M0 22h11l6-16 10 34 8-29 7 11h16' fill='none' stroke='%23b1d9d5' stroke-width='2'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* Painel do formulário (lado direito) da tela de acesso */
+.auth-panel {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  background: var(--surface);
+}
+
+/* Botão de alternar tema posicionado na tela de acesso */
+.auth-theme {
+  position: absolute;
+  right: 28px;
+  top: 28px;
+}
+
+/* Cartão do formulário de login/cadastro, com título e rodapé */
+.auth-card {
+  width: min(100%, 420px);
+  display: grid;
+  gap: 19px;
+}
+
+.auth-card__heading {
+  margin-bottom: 10px;
+}
+
+.auth-card h2 {
+  margin: 9px 0 7px;
+  font: 800 2.2rem/1.1 var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.auth-card p,
+.auth-footer {
+  color: var(--ink-soft);
+}
+
+.auth-card p {
+  margin: 0;
+}
+
+.auth-footer {
+  position: absolute;
+  bottom: 24px;
+  font-size: .72rem;
+}
+
+/* Formulários */
+
+/* FORMULÁRIOS: campo genérico (rótulo, input, select, textarea) e foco */
+.field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+
+.field > span:first-child {
+  font-size: .79rem;
+  font-weight: 700;
+}
+
+.field > span small {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.field input,
+.field select,
+.field textarea,
+
+/* Campo de busca e textarea dentro de formulários */
+.search-box input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 11px 13px;
+  transition: .18s;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.search-box input:focus {
+  border-color: var(--brand);
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+
+/* Input com ícone à esquerda e botão de mostrar/ocultar senha */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap > i {
+  position: absolute;
+  left: 14px;
+  color: var(--ink-soft);
+}
+
+.input-wrap input {
+  padding-left: 42px;
+  padding-right: 43px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 7px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 8px;
+}
+
+/* Mensagem de erro de validação sob o campo */
+.field-error {
+  min-height: 1em;
+  color: var(--danger);
+  font-size: .7rem;
+}
+
+/* Grades de formulário (colunas, endereço, campo que ocupa duas colunas) */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.form-grid--address {
+  grid-template-columns: .7fr 1.5fr .6fr 1fr;
+}
+
+.field--span-2 {
+  grid-column: 1 / -1;
+}
+
+/* Seções de formulário (ex.: dados pessoais, endereço) com títulos e subtítulos */
+.form-section + .form-section {
+  margin-top: 25px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.form-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 15px;
+  font: 700 .93rem var(--font-display);
+}
+
+.form-section h3 i {
+  color: var(--brand);
+}
+
+.form-section h3 small {
+  color: var(--ink-soft);
+  font: 500 .7rem var(--font-body);
+}
+
+/* Mensagem geral do formulário (sucesso/erro após enviar) */
+.form-message {
+  border: 1px solid color-mix(in srgb, var(--danger) 30%, var(--line));
+  border-radius: 11px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  padding: 11px 13px;
+  font-size: .8rem;
+}
+
+/* Estrutura autenticada */
+
+/* ESTRUTURA AUTENTICADA: container principal do sistema (barra lateral + conteúdo) */
+.app-shell {
+  min-height: 100vh;
+}
+
+/* Barra lateral: topo, botão de fechar no mobile e navegação principal */
+.sidebar {
+  position: fixed;
+  z-index: 50;
+  inset: 0 auto 0 0;
+  width: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 17px 18px;
+  background: var(--sidebar);
+  color: var(--sidebar-ink);
+}
+
+.sidebar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 28px;
+}
+
+.sidebar-close {
+  display: none;
+  background: rgba(255,255,255,.07);
+  border-color: rgba(255,255,255,.1);
+  color: #fff;
+}
+
+/* Menu de navegação lateral: itens, hover, item ativo e contadores */
+.primary-nav {
+  display: grid;
+  gap: 4px;
+}
+
+.nav-label {
+  margin: 17px 12px 6px;
+  color: #e3a5b4;
+  font-size: .61rem;
+}
+
+.primary-nav a {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  border-radius: 12px;
+  padding: 11px 12px;
+  color: #f0cbd4;
+  text-decoration: none;
+  font-size: .86rem;
+  font-weight: 600;
+  transition: .18s;
+}
+
+.primary-nav a:hover {
+  background: rgba(255,255,255,.06);
+  color: #fff;
+}
+
+.primary-nav a.active {
+  background: linear-gradient(100deg, rgba(255,210,220,.22), rgba(255,210,220,.08));
+  color: #fff;
+  box-shadow: inset 3px 0 #ff9db3;
+}
+
+.primary-nav a em {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(255,255,255,.1);
+  font-style: normal;
+}
+
+/* Indicador de status do sistema (ponto pulsante) no rodapé da lateral */
+.sidebar__status {
+  margin-top: auto;
+  display: grid;
+  grid-template-columns: 9px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 13px;
+  padding: 12px;
+  color: #b7d0d0;
+}
+
+.sidebar__status strong,
+.sidebar__status small {
+  display: block;
+}
+
+.sidebar__status strong {
+  color: #eaf5f4;
+  font-size: .75rem;
+}
+
+.sidebar__status small {
+  font-size: .62rem;
+}
+
+.status-orb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5ed7a9;
+  box-shadow: 0 0 0 5px rgba(94,215,169,.1);
+}
+
+/* Cartão do usuário logado na lateral (avatar, nome e função) */
+.user-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 38px 1fr auto;
+  gap: 9px;
+  align-items: center;
+  border: 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  margin-top: 16px;
+  padding: 17px 7px 0;
+  background: transparent;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.user-card strong,
+.user-card small,
+.profile-chip strong,
+.profile-chip small {
+  display: block;
+}
+
+.user-card strong {
+  font-size: .76rem;
+}
+
+.user-card small {
+  color: #8eafb0;
+  font-size: .64rem;
+}
+
+/* Avatar circular com iniciais do usuário/paciente */
+.avatar {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fae0e7, #efb4c2);
+  color: #74233a;
+  font: 800 .72rem var(--font-display);
+}
+
+/* Área principal ao lado da barra lateral */
+.app-main {
+  min-height: 100vh;
+  margin-left: var(--sidebar-width);
+}
+
+/* Barra superior: botão de menu, contexto da página e ações */
+.topbar {
+  position: sticky;
+  z-index: 30;
+  top: 0;
+  height: var(--topbar-height);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  padding: 0 clamp(20px, 3vw, 44px);
+  background: color-mix(in srgb, var(--canvas) 88%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.topbar__context {
+  margin-right: auto;
+}
+
+.topbar__context span {
+  color: var(--ink-soft);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+  font-weight: 700;
+}
+
+.topbar__context h2 {
+  margin: 2px 0 0;
+  font: 800 1.35rem var(--font-display);
+  letter-spacing: -.035em;
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+/* Data atual exibida na barra superior */
+.date-pill {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0 13px;
+  color: var(--ink-soft);
+  font-size: .75rem;
+}
+
+/* Chip do perfil (nome e função) na barra superior */
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-chip strong {
+  max-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .75rem;
+}
+
+.profile-chip small {
+  color: var(--ink-soft);
+  font-size: .63rem;
+}
+
+/* Contêiner do conteúdo de cada tela (#main-content) */
+#main-content {
+  min-height: calc(100vh - var(--topbar-height));
+  padding: clamp(22px, 3vw, 42px);
+}
+
+/* Barra de progresso exibida durante a troca de rota */
+.route-progress {
+  position: fixed;
+  z-index: 100;
+  inset: 0 0 auto var(--sidebar-width);
+  height: 3px;
+  overflow: hidden;
+}
+
+.route-progress span {
+  display: block;
+  width: 35%;
+  height: 100%;
+  background: var(--mint);
+  animation: loading 1s ease-in-out infinite;
+}
+
+/* Animação da barra de progresso de carregamento */
+@keyframes loading {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(310%);
+  }
+}
+
+/* Componentes de conteúdo */
+
+/* COMPONENTES DE CONTEÚDO: pilha vertical de blocos da página */
+.page-stack {
+  display: grid;
+  gap: 22px;
+  max-width: 1500px;
+  margin: auto;
+}
+
+/* Cabeçalho de página (título, descrição e ações) */
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.page-heading h1 {
+  margin: 5px 0 5px;
+  font: 800 clamp(1.7rem, 3vw, 2.55rem)/1.05 var(--font-display);
+  letter-spacing: -.055em;
+}
+
+.page-heading p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: .87rem;
+}
+
+.heading-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+/* Utilitários de grade: 4, 3 e 2 colunas, e colunas duplas com pilha */
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.columns-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.column-stack {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* Botão 'ver mais' e listas recolhíveis (mostrar/ocultar itens extras) */
+.card__more {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--line);
+  padding: 12px 19px;
+}
+
+[data-collapsible-list]:not(.is-expanded) > .is-extra {
+  display: none;
+}
+
+[data-collapsible-list].is-expanded {
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+/* Texto truncado em poucas linhas com botão de expandir/recolher */
+.clamp-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.quick-item small.clamp-text {
+  display: -webkit-box;
+}
+
+.clamp-text.is-open,
+.quick-item small.clamp-text.is-open {
+  display: block;
+  overflow: visible;
+}
+
+.clamp-toggle {
+  display: block;
+  margin-top: 4px;
+  border: 0;
+  background: transparent;
+  color: var(--brand);
+  font-size: .68rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clamp-toggle:hover {
+  text-decoration: underline;
+}
+
+/* Cartão genérico (cabeçalho e corpo), base de quase todos os painéis */
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  padding: 17px 19px;
+}
+
+.card__header h2,
+.card__header h3 {
+  margin: 0;
+  font: 750 1rem var(--font-display);
+}
+
+.card__body {
+  padding: 19px;
+}
+
+/* Cartões de métrica do painel inicial (valor, rótulo, ícone e cores por tom) */
+.metric-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 150px;
+  padding: 18px;
+}
+
+.metric-card::after {
+  content: "";
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border: 18px solid currentColor;
+  border-radius: 50%;
+  opacity: .035;
+  right: -35px;
+  bottom: -42px;
+}
+
+.metric-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.metric-card[data-tone="mint"] .metric-icon {
+  background: var(--mint-soft);
+  color: var(--mint);
+}
+
+.metric-card[data-tone="coral"] .metric-icon {
+  background: var(--coral-soft);
+  color: var(--coral);
+}
+
+.metric-card[data-tone="amber"] .metric-icon {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.metric-value {
+  display: block;
+  margin: 18px 0 2px;
+  font: 800 2rem var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.metric-label {
+  color: var(--ink-soft);
+  font-size: .76rem;
+}
+
+/* Banner de destaque do painel inicial (mensagem clínica e arte) */
+.clinical-banner {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.4fr .6fr;
+  min-height: 225px;
+  color: #fff;
+  background: linear-gradient(125deg, #7d263e, #b63b5a);
+}
+
+.clinical-banner::before {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 50%;
+  right: -90px;
+  top: -170px;
+  box-shadow: 0 0 0 65px rgba(255,255,255,.025);
+}
+
+.clinical-banner__copy {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  padding: clamp(24px, 4vw, 44px);
+}
+
+.clinical-banner .eyebrow {
+  color: #ffd0da;
+}
+
+.clinical-banner h2 {
+  max-width: 660px;
+  margin: 8px 0 10px;
+  font: 800 clamp(1.55rem, 3vw, 2.7rem)/1.08 var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.clinical-banner p {
+  max-width: 620px;
+  margin: 0 0 20px;
+  color: #ffe3e9;
+  font-size: .86rem;
+}
+
+.clinical-banner__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-size: clamp(5rem, 10vw, 9rem);
+  color: rgba(255,255,255,.12);
+}
+
+.quick-list,
+.timeline,
+
+/* Lista de itens rápidos/atalhos (ex.: últimos pacientes) */
+.suggestion-list {
+  display: grid;
+  gap: 10px;
+}
+
+.quick-item {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 11px;
+  text-decoration: none;
+  transition: .18s;
+}
+
+.quick-item:hover {
+  border-color: var(--brand);
+  transform: translateX(2px);
+}
+
+.quick-item__icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  background: var(--surface-soft);
+  color: var(--brand);
+}
+
+.quick-item strong,
+.quick-item small {
+  display: block;
+}
+
+.quick-item strong {
+  font-size: .79rem;
+}
+
+.quick-item small {
+  color: var(--ink-soft);
+  font-size: .68rem;
+}
+
+/* Itens de rascunhos de consulta no painel, com botão de cancelar rascunho */
+.draft-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.draft-item__link {
+  min-width: 0;
+}
+
+.draft-item__cancel {
+  display: grid;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--danger) 28%, var(--line));
+  border-radius: 13px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  cursor: pointer;
+  transition: .18s;
+}
+
+.draft-item__cancel:hover {
+  border-color: var(--danger);
+  transform: translateY(-1px);
+}
+
+.draft-item__cancel:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--danger) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.draft-item__cancel:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+/* Selos de status (rascunho, concluída, neutro) */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: .65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.status-badge--draft {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.status-badge--done {
+  background: var(--mint-soft);
+  color: var(--mint);
+}
+
+.status-badge--neutral {
+  background: var(--surface-soft);
+  color: var(--ink-soft);
+}
+
+/* Barra de ferramentas e caixa de busca das listagens */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-soft);
+}
+
+.search-box input {
+  padding-left: 41px;
+  background: var(--surface);
+}
+
+/* Tabelas de dados (pacientes, usuários, histórico): rolagem, cabeçalho, linhas e hover */
+.table-card {
+  overflow: hidden;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 14px 17px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+  font-size: .77rem;
+}
+
+.data-table th {
+  background: var(--surface-raised);
+  color: var(--ink-soft);
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.data-table tbody tr {
+  cursor: pointer;
+  transition: .15s;
+}
+
+.data-table tbody tr:hover {
+  background: var(--brand-soft);
+}
+
+/* Célula com avatar e nome da pessoa dentro das tabelas */
+.person-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.person-cell strong,
+.person-cell small {
+  display: block;
+}
+
+.person-cell small {
+  color: var(--ink-soft);
+}
+
+/* Estado vazio (quando não há dados a mostrar) */
+.empty-state {
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  padding: 35px;
+  text-align: center;
+}
+
+.empty-state__icon {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  margin: auto;
+  border-radius: 23px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 1.7rem;
+}
+
+.empty-state h3 {
+  margin: 14px 0 6px;
+  font: 750 1.1rem var(--font-display);
+}
+
+.empty-state p {
+  max-width: 410px;
+  margin: 0 auto 17px;
+  color: var(--ink-soft);
+  font-size: .8rem;
+}
+
+/* Esqueleto de carregamento (skeleton) com brilho animado */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  min-height: 120px;
+  background: var(--surface-soft);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: shimmer 1.3s infinite;
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Paciente e prontuário */
+
+/* PACIENTE E PRONTUÁRIO: cabeçalho do paciente (avatar, nome e metadados) */
+.patient-hero {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+}
+
+.patient-hero .avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  font-size: 1rem;
+}
+
+.patient-hero h1 {
+  margin: 0 0 4px;
+  font: 800 1.55rem var(--font-display);
+  letter-spacing: -.04em;
+}
+
+.patient-meta {
+  display: flex;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+  color: var(--ink-soft);
+  font-size: .75rem;
+}
+
+.patient-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Faixa de campos do prontuário na tela do paciente */
+.record-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+}
+
+.record-field {
+  min-height: 130px;
+  background: var(--surface);
+  padding: 18px;
+}
+
+.record-field span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ink-soft);
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 700;
+}
+
+.record-field p {
+  margin: 0;
+  font-size: .83rem;
+  white-space: pre-wrap;
+}
+
+.record-field i {
+  color: var(--mint);
+  margin-right: 6px;
+}
+
+/* Linha do tempo das consultas do paciente (data, título e resumo) */
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 13px;
+  align-items: start;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.timeline-date {
+  text-align: center;
+  border-radius: 11px;
+  background: var(--surface-soft);
+  padding: 8px 4px;
+}
+
+.timeline-date strong,
+.timeline-date small {
+  display: block;
+}
+
+.timeline-date strong {
+  font: 800 1rem var(--font-display);
+}
+
+.timeline-date small {
+  color: var(--ink-soft);
+  font-size: .6rem;
+  text-transform: uppercase;
+}
+
+.timeline-item h3 {
+  margin: 1px 0 3px;
+  font-size: .83rem;
+}
+
+.timeline-item p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: .72rem;
+}
+
+/* Consulta */
+
+/* CONSULTA: layout em duas colunas (principal e lateral) */
+.consultation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(330px, .65fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.consultation-main,
+.consultation-side {
+  display: grid;
+  gap: 16px;
+}
+
+.consultation-side {
+  position: sticky;
+  top: calc(var(--topbar-height) + 20px);
+}
+
+/* Indicador de etapas (stepper) do fluxo da consulta */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ink-soft);
+  font-size: .69rem;
+  white-space: nowrap;
+}
+
+.step::before {
+  content: attr(data-step);
+  width: 25px;
+  height: 25px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.step.active {
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.step.active::before {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+.step + .step::after {
+  content: "";
+  order: -1;
+  width: 28px;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Painel de reconhecimento de voz: controles, botão gravar/pausar e estado */
+.speech-panel {
+  overflow: hidden;
+}
+
+.speech-controls {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 18px;
+  background: linear-gradient(120deg, var(--brand-soft), var(--surface));
+}
+
+.record-button {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--coral);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 0 7px var(--coral-soft);
+  transition: .2s;
+}
+
+.record-button.is-listening {
+  animation: recording 1.4s infinite;
+}
+
+.pause-button {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--brand);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.pause-button[hidden] {
+  display: none;
+}
+
+.pause-button:hover:not(:disabled) {
+  background: var(--brand-soft);
+}
+
+.pause-button.is-paused {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+@keyframes recording {
+  50% {
+    box-shadow: 0 0 0 15px color-mix(in srgb, var(--coral) 10%, transparent);
+  }
+}
+
+.speech-state strong,
+.speech-state small {
+  display: block;
+}
+
+.speech-state strong {
+  font-size: .82rem;
+}
+
+.speech-state small {
+  color: var(--ink-soft);
+  font-size: .7rem;
+}
+
+/* Área da transcrição ditada ou digitada */
+.transcript {
+  width: 100%;
+  min-height: 220px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 18px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.transcript:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 2px var(--brand);
+}
+
+/* Aviso quando o navegador não suporta ditado por voz */
+.speech-unsupported {
+  color: var(--amber);
+  font-size: .72rem;
+  padding: 0 18px 14px;
+}
+
+/* Abas SOAP e seus painéis (campos do prontuário da consulta) */
+.soap-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.soap-tab {
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 9px;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.soap-tab.active {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.soap-pane {
+  display: none;
+  padding: 16px;
+}
+
+.soap-pane.active {
+  display: block;
+}
+
+.soap-pane textarea {
+  width: 100%;
+  min-height: 165px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-raised);
+  color: var(--ink);
+  padding: 14px;
+  resize: vertical;
+}
+
+/* Campo com destaque de trechos (fundo espelho que marca texto aceito/recusado) */
+.mirror-field {
+  position: relative;
+  border-radius: 12px;
+  background: var(--surface-raised);
+}
+
+.mirror-field textarea {
+  position: relative;
+  display: block;
+  background: transparent;
+  scrollbar-gutter: stable;
+}
+
+.mirror-field__backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 14px;
+  border: 1px solid transparent;
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  color: transparent;
+  pointer-events: none;
+}
+
+.mirror-field .hl {
+  color: transparent;
+  border-radius: 3px;
+}
+
+.mirror-field .hl--ok {
+  background: color-mix(in srgb, var(--mint) 40%, transparent);
+  box-shadow: 0 0 0 1px var(--mint);
+}
+
+.mirror-field .hl--no {
+  background: color-mix(in srgb, var(--danger) 36%, transparent);
+  box-shadow: 0 0 0 1px var(--danger);
+}
+
+/* Texto de apoio abaixo dos campos SOAP */
+.soap-pane small {
+  display: block;
+  margin-top: 7px;
+  color: var(--ink-soft);
+}
+
+/* Cartão de assistência da IA: cabeçalho, ícone e aviso */
+.assist-card {
+  border-color: color-mix(in srgb, var(--brand) 26%, var(--line));
+}
+
+.assist-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.assist-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 13px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.assist-heading h3,
+.assist-heading p {
+  margin: 0;
+}
+
+.assist-heading p {
+  color: var(--ink-soft);
+  font-size: .68rem;
+}
+
+.assist-note {
+  border-left: 3px solid var(--mint);
+  margin: 13px 0;
+  padding: 9px 11px;
+  background: var(--mint-soft);
+  color: var(--ink-soft);
+  font-size: .69rem;
+}
+
+/* Grupos e itens de sugestões da IA (lista por campo) */
+.suggestion-group + .suggestion-group {
+  margin-top: 16px;
+}
+
+#suggestions:not(:empty) {
+  margin-top: 20px;
+}
+
+.suggestion-group h4 {
+  margin: 0 0 8px;
+  color: var(--ink-soft);
+  font-size: .65rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.suggestion-list {
+  display: grid;
+  gap: 8px;
+}
+
+.suggestion-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  background: var(--surface-raised);
+  transition: .18s ease;
+}
+
+.suggestion-item p {
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: .72rem;
+  line-height: 1.45;
+}
+
+/* Botões aceitar/recusar de cada sugestão e estados aceito/recusado */
+.suggestion-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.suggestion-decision {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: .18s ease;
+}
+
+.suggestion-decision--accept {
+  color: var(--mint);
+}
+
+.suggestion-decision--reject {
+  color: var(--danger);
+}
+
+.suggestion-decision:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: currentColor;
+}
+
+.suggestion-decision:disabled {
+  cursor: default;
+  opacity: .7;
+}
+
+.suggestion-item.is-accepted {
+  border-color: var(--mint);
+  background: var(--mint-soft);
+}
+
+.suggestion-item.is-accepted::before {
+  content: "Aceita";
+  grid-column: 1 / -1;
+  color: var(--mint);
+  font-size: .61rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.suggestion-item.is-rejected {
+  opacity: .62;
+  border-color: color-mix(in srgb, var(--danger) 45%, var(--line));
+  background: var(--danger-soft);
+}
+
+.suggestion-item.is-rejected p {
+  text-decoration: line-through;
+}
+
+/* Barra de finalização da consulta (rodapé com ação de concluir) */
+.finish-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 13px 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+.finish-bar small {
+  color: var(--ink-soft);
+}
+
+/* Modais e feedback */
+
+/* MODAIS E FEEDBACK: janela modal base (dialog), variante larga, fundo, cabeçalho, corpo e rodapé */
+.modal {
+  width: min(720px, calc(100% - 24px));
+  max-height: calc(100vh - 30px);
+  border: 0;
+  border-radius: 22px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0;
+  box-shadow: 0 30px 90px rgba(0,0,0,.28);
+}
+
+.modal--wide {
+  width: min(1040px, calc(100% - 24px));
+}
+
+.modal::backdrop {
+  background: rgba(6, 25, 29, .62);
+  backdrop-filter: blur(5px);
+}
+
+.modal__frame {
+  max-height: calc(100vh - 30px);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__header,
+.modal__footer {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 23px;
+}
+
+.modal__header {
+  border-bottom: 1px solid var(--line);
+}
+
+.modal__header h2 {
+  margin: 4px 0 2px;
+  font: 800 1.35rem var(--font-display);
+  letter-spacing: -.04em;
+}
+
+.modal__header p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: .75rem;
+}
+
+.modal__body {
+  overflow-y: auto;
+  padding: 22px 23px;
+}
+
+.modal__footer {
+  border-top: 1px solid var(--line);
+}
+
+.modal__hint {
+  margin-right: auto;
+  color: var(--ink-soft);
+  font-size: .7rem;
+}
+
+/* Ativação segura do acesso profissional */
+
+/* TELA DE CONVITE: ativação do acesso profissional via link de convite */
+.invite-screen {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(circle at 15% 10%, var(--brand-soft), transparent 30%), var(--canvas);
+}
+
+/* Cartão da tela de convite e dados da clínica que convidou */
+.invite-card {
+  width: min(100%, 520px);
+  display: grid;
+  gap: 22px;
+  padding: clamp(26px, 5vw, 46px);
+}
+
+.invite-card h1 {
+  margin: 8px 0;
+  font: 800 clamp(1.8rem, 5vw, 2.5rem)/1.08 var(--font-display);
+  letter-spacing: -.05em;
+}
+
+.invite-card p {
+  color: var(--ink-soft);
+}
+
+.invite-card form {
+  display: grid;
+  gap: 17px;
+}
+
+.invite-clinic {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 13px;
+  background: var(--surface-raised);
+}
+
+.invite-clinic i {
+  color: var(--brand);
+  font-size: 1.25rem;
+}
+
+.invite-clinic small,
+.invite-clinic strong {
+  display: block;
+}
+
+.invite-clinic small {
+  color: var(--ink-soft);
+  font-size: .65rem;
+  text-transform: uppercase;
+}
+
+/* Notificações flutuantes (toasts) de sucesso/erro */
+.toast-region {
+  position: fixed;
+  z-index: 200;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  gap: 9px;
+  width: min(380px, calc(100% - 40px));
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: 35px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  animation: toast-in .25s ease;
+}
+
+.toast__icon {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--mint-soft);
+  color: var(--mint);
+}
+
+.toast--error .toast__icon {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.toast strong,
+.toast small {
+  display: block;
+}
+
+.toast strong {
+  font-size: .77rem;
+}
+
+.toast small {
+  color: var(--ink-soft);
+  font-size: .68rem;
+}
+
+.toast button {
+  border: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+/* Animação de entrada do toast */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* RESPONSIVO: ajustes de layout para telas até 1180px */
+@media (max-width: 1180px) {
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .consultation-layout {
+    grid-template-columns: 1fr;
+  }
+  .consultation-side {
+    position: static;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .form-grid--address {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* RESPONSIVO: tablets, até 900px (barra lateral vira menu deslizante) */
+@media (max-width: 900px) {
+  .auth-screen {
+    grid-template-columns: 1fr;
+  }
+  .auth-visual {
+    min-height: 390px;
+  }
+  .auth-visual h1 {
+    font-size: clamp(2.5rem, 9vw, 4.5rem);
+  }
+  .auth-panel {
+    min-height: 610px;
+  }
+  .sidebar {
+    transform: translateX(-102%);
+    transition: transform .24s ease;
+    box-shadow: var(--shadow);
+  }
+  .sidebar.open {
+    transform: none;
+  }
+  .sidebar-close,
+  .menu-toggle {
+    display: inline-grid;
+  }
+  .app-main {
+    margin-left: 0;
+  }
+  .route-progress {
+    left: 0;
+  }
+  .topbar {
+    padding-inline: 18px;
+  }
+  .date-pill,
+  .profile-chip > span:not(.avatar) {
+    display: none;
+  }
+  .record-strip {
+    grid-template-columns: 1fr;
+  }
+  .consultation-side {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* RESPONSIVO: celulares, até 680px */
+@media (max-width: 680px) {
+  .auth-visual {
+    padding: 28px 23px;
+    min-height: 360px;
+  }
+  .auth-panel {
+    padding: 72px 22px 60px;
+  }
+  .auth-footer {
+    position: static;
+    margin-top: 36px;
+  }
+  #main-content {
+    padding: 20px 14px 30px;
+  }
+  .topbar__context h2 {
+    font-size: 1.05rem;
+  }
+  .grid--4,
+  .grid--3,
+  .grid--2,
+  .columns-2 {
+    grid-template-columns: 1fr;
+  }
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .heading-actions,
+  .heading-actions .button {
+    width: 100%;
+  }
+  .clinical-banner {
+    grid-template-columns: 1fr;
+  }
+  .clinical-banner__art {
+    display: none;
+  }
+  .patient-hero {
+    grid-template-columns: auto 1fr;
+  }
+  .patient-hero .heading-actions {
+    grid-column: 1 / -1;
+  }
+  .form-grid,
+  .form-grid--address {
+    grid-template-columns: 1fr;
+  }
+  .field--span-2 {
+    grid-column: auto;
+  }
+  .soap-tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .finish-bar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .modal__header,
+  .modal__body,
+  .modal__footer {
+    padding-inline: 17px;
+  }
+  .modal__footer .button {
+    flex: 1;
+  }
+  .modal__footer {
+    flex-wrap: wrap;
+  }
+  .modal__hint {
+    flex-basis: 100%;
+  }
+}
+
+/* Acessibilidade: reduz animações para quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* PRONTUÁRIO UNIFICADO (MODAL): bloqueio de rolagem da página ao abrir o prontuário */
+.record-modal-open {
+  overflow: hidden;
+}
+
+/* Modal do prontuário completo: moldura, fundo e barra superior */
+.record-modal.modal {
+  width: min(1180px, calc(100vw - 32px));
+  max-width: 1180px;
+  height: min(920px, calc(100dvh - 32px));
+  max-height: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.record-modal::backdrop {
+  background: rgba(4, 21, 25, .72);
+  backdrop-filter: none;
+}
+
+.record-modal__frame {
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  background: var(--canvas);
+  contain: layout paint;
+}
+
+.record-modal__toolbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 17px 22px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 5px 18px rgba(18, 63, 74, .05);
+}
+
+.record-modal__heading {
+  min-width: 210px;
+}
+
+.record-modal__toolbar h2 {
+  margin: 2px 0 0;
+  font: 800 1.35rem/1.2 var(--font-display);
+  letter-spacing: -.035em;
+}
+
+.record-modal__toolbar p {
+  margin: 3px 0 0;
+  color: var(--ink-soft);
+  font-size: .76rem;
+}
+
+.record-modal__actions {
+  display: flex;
+  align-items: end;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Corpo do modal do prontuário e ordenação das consultas */
+.record-modal__body {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding: 28px;
+}
+
+.record-sort {
+  min-width: 220px;
+  display: grid;
+  gap: 4px;
+  color: var(--ink-soft);
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.record-sort select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 34px 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+
+/* Documento do prontuário (base da folha exibida/exportada) */
+.record-document {
+  width: 100%;
+  max-width: 990px;
+  margin: 0 auto;
+  padding: clamp(24px, 4vw, 46px);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(18, 63, 74, .08);
+  font-size: .94rem;
+}
+
+/* O tema escuro preserva a identidade azul-petróleo original. */
+
+/* TEMA ESCURO: ajustes de marca, painel de acesso, navegação, avatar e banner */
+html[data-theme="dark"] .brand__mark {
+  background: linear-gradient(145deg, #4bb89d, #16828a);
+  box-shadow: 0 8px 22px rgba(48, 169, 145, .24);
+}
+
+html[data-theme="dark"] .brand small {
+  color: #9dc3c1;
+}
+
+html[data-theme="dark"] .auth-visual {
+  background: radial-gradient(circle at 85% 15%, rgba(75, 184, 157, .35), transparent 24%), radial-gradient(circle at 15% 90%, rgba(228, 110, 89, .14), transparent 28%), linear-gradient(145deg, #0b333c, #125763 65%, #12666c);
+}
+
+html[data-theme="dark"] .auth-visual__copy .eyebrow {
+  color: #8ee0ce;
+}
+
+html[data-theme="dark"] .auth-visual p,
+html[data-theme="dark"] .privacy-note {
+  color: #cce3e1;
+}
+
+html[data-theme="dark"] .privacy-note i {
+  color: #70d1b5;
+}
+
+html[data-theme="dark"] .pulse-line span {
+  background: #b1d9d5;
+}
+
+html[data-theme="dark"] .nav-label {
+  color: #6f9da0;
+}
+
+html[data-theme="dark"] .primary-nav a {
+  color: #a9c5c5;
+}
+
+html[data-theme="dark"] .primary-nav a:hover {
+  color: #fff;
+}
+
+html[data-theme="dark"] .primary-nav a.active {
+  background: linear-gradient(100deg, rgba(73,185,157,.22), rgba(73,185,157,.08));
+  color: #fff;
+  box-shadow: inset 3px 0 #58c8aa;
+}
+
+html[data-theme="dark"] .avatar {
+  background: linear-gradient(145deg, #d5efea, #9cd9cc);
+  color: #12464e;
+}
+
+html[data-theme="dark"] .clinical-banner {
+  background: linear-gradient(125deg, #0f4651, #16727a);
+}
+
+html[data-theme="dark"] .clinical-banner .eyebrow {
+  color: #8ce0ca;
+}
+
+html[data-theme="dark"] .clinical-banner p {
+  color: #c9e4e1;
+}
+
+/* Prontuário: capa do documento, símbolo e identificação do paciente */
+.record-document__cover {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--brand);
+}
+
+.record-document__cover h2 {
+  margin: 4px 0 5px;
+  font: 800 clamp(1.55rem, 3vw, 2.15rem)/1.15 var(--font-display);
+  letter-spacing: -.04em;
+}
+
+.record-document__cover p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.record-document__symbol {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: white;
+  background: linear-gradient(145deg, var(--brand), var(--mint));
+  font-size: 1.6rem;
+}
+
+.record-document__identity {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 1px;
+  margin: 22px 0 30px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--line);
+}
+
+.record-document__identity div {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.record-document__identity small,
+.record-document__grid small {
+  color: var(--ink-soft);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.record-document__identity strong {
+  overflow-wrap: anywhere;
+}
+
+/* Prontuário: seções, títulos, grupos clínicos e grades de campos */
+.record-document__section {
+  margin-top: 34px;
+}
+
+.record-document__title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 18px;
+  padding: 12px 15px;
+  border-left: 4px solid var(--mint);
+  border-radius: 0 10px 10px 0;
+  background: var(--surface-raised);
+  font: 800 1.08rem/1.3 var(--font-display);
+}
+
+.record-document__title i {
+  color: var(--brand);
+}
+
+.record-clinical-group + .record-clinical-group {
+  margin-top: 20px;
+}
+
+.record-clinical-group > h4 {
+  margin: 0 0 9px;
+  color: var(--brand);
+  font: 800 .72rem/1.3 var(--font-body);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.record-document__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.record-document__grid article {
+  min-width: 0;
+  min-height: 92px;
+  padding: 15px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-raised);
+}
+
+.record-document__grid p {
+  margin: 9px 0 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  line-height: 1.62;
+}
+
+/* Prontuário: linha do tempo de eventos (consultas e auditoria) */
+.record-timeline {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding-left: 22px;
+}
+
+.record-timeline::before {
+  content: "";
+  position: absolute;
+  inset: 8px auto 8px 6px;
+  width: 2px;
+  background: var(--line);
+}
+
+.record-event {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 155px minmax(0, 1fr) auto;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-raised);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 230px;
+}
+
+.record-event::before {
+  content: "";
+  position: absolute;
+  left: -21px;
+  top: 22px;
+  width: 10px;
+  height: 10px;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 1px var(--brand);
+}
+
+.record-event time {
+  color: var(--ink-soft);
+  font-size: .83rem;
+  font-weight: 700;
+}
+
+.record-event h4 {
+  margin: 0 0 10px;
+  font: 800 1rem/1.35 var(--font-display);
+}
+
+.record-event p {
+  margin: 7px 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.record-event p strong {
+  color: var(--brand);
+}
+
+.record-event > a {
+  align-self: start;
+  color: var(--brand);
+  font-weight: 700;
+}
+
+.record-event--audit::before {
+  background: var(--mint);
+  box-shadow: 0 0 0 1px var(--mint);
+}
+
+/* RESPONSIVO do prontuário: até 900px */
+@media (max-width: 900px) {
+  .record-modal__toolbar {
+    align-items: flex-start;
+  }
+  .record-modal__actions {
+    flex-wrap: wrap;
+  }
+  .record-document__identity {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* RESPONSIVO do prontuário: até 760px */
+@media (max-width: 760px) {
+  .record-modal.modal {
+    width: 100vw;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+  .record-modal__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+  .record-modal__actions {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: end;
+  }
+  .record-sort {
+    min-width: 0;
+  }
+  .record-modal__body {
+    padding: 10px;
+  }
+  .record-document {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .record-document__cover,
+  .record-document__identity,
+  .record-document__grid,
+  .record-event {
+    grid-template-columns: 1fr;
+  }
+  .record-event {
+    gap: 8px;
+  }
+  .record-document__cover .status-badge {
+    justify-self: start;
+  }
+}
+
+/* RESPONSIVO do prontuário: até 480px */
+@media (max-width: 480px) {
+  .record-modal__actions {
+    grid-template-columns: 1fr auto;
+  }
+  .record-sort {
+    grid-column: 1 / -1;
+  }
+  .record-modal__actions .button span {
+    display: none;
+  }
+}
+
+/* Link de ação na tela de acesso (ex.: esqueci/voltar) */
+.auth-link {
+  color: var(--primary, #b52d55);
+  display: block;
+  font-weight: 700;
+  margin-top: 1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* Painel de uso da IA */
+
+/* Tabela de uso da IA (linhas e hover) */
+.usage-table tbody tr {
+  cursor: default;
+}
+
+.usage-table tbody tr:hover {
+  background: transparent;
+}
+
+/* Limite diário de uso da IA e barra de progresso */
+.usage-limit {
+  display: grid;
+  gap: 12px;
+}
+
+.usage-limit small {
+  display: block;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+
+.usage-meter,
+.usage-bar {
+  height: 9px;
+  border-radius: 99px;
+  background: var(--brand-soft);
+  overflow: hidden;
+}
+
+.usage-meter span,
+.usage-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--brand);
+}
+
+.usage-bar {
+  min-width: 120px;
+}
+
+/* Gráfico de uso por dia (barras da própria consulta vs. da clínica) */
+.usage-chart {
+  display: grid;
+  grid-template-columns: repeat(14, minmax(0, 1fr));
+  gap: 8px;
+  align-items: end;
+  min-height: 190px;
+}
+
+.usage-chart__day {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+
+.usage-chart__bars {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.usage-chart__clinic,
+.usage-chart__mine {
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+  border-radius: 6px 6px 0 0;
+  min-height: 2px;
+}
+
+.usage-chart__clinic {
+  background: var(--brand-soft);
+  border: 1px solid var(--brand);
+}
+
+.usage-chart__mine {
+  background: var(--brand);
+  width: 42%;
+}
+
+.usage-chart__day small {
+  color: var(--ink-soft);
+  font-size: .6rem;
+}
+
+/* Caixa recolhível com as falas identificadas pela IA na transcrição (estimativa) */
+.identified-box {
+  margin: 0;
+  border-top: 1px solid var(--line);
+  background: var(--surface-raised);
+}
+
+.identified-box summary {
+  cursor: pointer;
+  padding: 11px 18px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.identified-box pre {
+  margin: 0;
+  padding: 4px 18px 16px;
+  white-space: pre-wrap;
+  font: inherit;
+  font-size: .78rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+/* RESPONSIVO do painel de uso da IA: até 680px */
+@media (max-width: 680px) {
+  .usage-chart {
+    gap: 4px;
+  }
+  .usage-chart__day small {
+    font-size: .5rem;
+  }
+}

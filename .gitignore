@@ -1,0 +1,11 @@
+# Arquivos locais e de trabalho que não fazem parte do projeto.
+.idea/
+.vscode/
+.claude/
+.agents/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+node_modules/

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sistema Clínico - prontuário único, consultas SOAP e apoio à decisão clínica.">
+  <meta name="theme-color" content="#123f4a">
+  <title>Sistema Clínico</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3.2.0">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Ir para o conteúdo</a>
+
+  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+    <div class="auth-visual">
+      <div class="brand brand--hero" aria-label="Sistema Clínico">
+        <span class="brand__mark" aria-hidden="true"><i class="fa-solid fa-staff-snake"></i></span>
+        <span><strong>Sistema</strong><small>clínico</small></span>
+      </div>
+      <div class="auth-visual__copy">
+        <span class="eyebrow">Registro clínico conectado</span>
+        <h1>Mais atenção à pessoa.<br>Mais clareza no cuidado.</h1>
+        <p>Consultas organizadas em SOAP, prontuário longitudinal único e apoio consultivo sob controle médico.</p>
+      </div>
+      <div class="pulse-line" aria-hidden="true"><span></span><i></i><span></span></div>
+      <div class="privacy-note"><i class="fa-solid fa-shield-heart"></i><span>Dados clínicos acessíveis somente a profissionais vinculados.</span></div>
+    </div>
+
+    <div class="auth-panel">
+      <button class="icon-button theme-toggle auth-theme" type="button" aria-label="Alternar tema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <form class="auth-card" id="login-form" novalidate>
+        <div class="auth-card__heading">
+          <span class="eyebrow">Acesso profissional</span>
+          <h2 id="auth-title">Bem-vindo de volta</h2>
+          <p>Entre com suas credenciais médicas.</p>
+        </div>
+        <label class="field">
+          <span>E-mail profissional</span>
+          <span class="input-wrap"><i class="fa-regular fa-envelope"></i><input name="email" type="email" autocomplete="username" placeholder="medico@clinica.com" required></span>
+          <small class="field-error"></small>
+        </label>
+        <label class="field">
+          <span>Senha</span>
+          <span class="input-wrap"><i class="fa-solid fa-lock"></i><input name="senha" type="password" autocomplete="current-password" minlength="8" placeholder="Sua senha" required><button class="password-toggle" type="button" aria-label="Mostrar senha"><i class="fa-regular fa-eye"></i></button></span>
+          <small class="field-error"></small>
+        </label>
+        <div class="form-message" id="login-message" role="alert" hidden></div>
+        <button class="button button--primary button--wide" type="submit"><span>Entrar no sistema</span><i class="fa-solid fa-arrow-right"></i></button>
+        <a class="auth-link" href="#/recuperar-senha">Esqueci minha senha</a>
+      </form>
+      <p class="auth-footer">Uso restrito a profissionais autorizados · Sistema Clínico</p>
+    </div>
+  </section>
+
+  <section class="invite-screen" id="recovery-screen" hidden>
+    <div class="invite-card card">
+      <span class="brand__mark" aria-hidden="true"><i class="fa-solid fa-shield-heart"></i></span>
+      <form id="recovery-request-form" novalidate>
+        <span class="eyebrow">Segurança da conta</span><h1>Recuperar senha</h1>
+        <p>Informe seu e-mail profissional. Se houver uma conta ativa, enviaremos um link temporário.</p>
+        <label class="field"><span>E-mail</span><input name="email" type="email" autocomplete="email" required></label>
+        <div class="form-message" data-recovery-message role="alert" hidden></div>
+        <button class="button button--primary button--wide" type="submit">Enviar link</button>
+        <a class="auth-link" href="#/">Voltar ao login</a>
+      </form>
+      <form id="password-reset-form" hidden novalidate>
+        <span class="eyebrow">Link verificado</span><h1>Crie uma nova senha</h1>
+        <label class="field"><span>Nova senha</span><input name="novaSenha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required></label>
+        <label class="field"><span>Confirmar senha</span><input name="confirmacaoSenha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required></label>
+        <div class="form-message" data-reset-message role="alert" hidden></div>
+        <button class="button button--primary button--wide" type="submit">Redefinir senha</button>
+        <a class="auth-link" href="#/">Voltar ao login</a>
+      </form>
+    </div>
+  </section>
+
+  <section class="invite-screen" id="invite-screen" hidden>
+    <div class="invite-card card">
+      <span class="brand__mark" aria-hidden="true"><i class="fa-solid fa-staff-snake"></i></span>
+      <div data-invite-loading><span class="eyebrow">Convite profissional</span><h1>Validando seu acesso...</h1><p>Aguarde enquanto verificamos o link.</p></div>
+      <form id="invite-form" hidden novalidate>
+        <span class="eyebrow">Primeiro acesso</span>
+        <h1>Defina sua senha</h1>
+        <p data-invite-welcome></p>
+        <div class="invite-clinic" data-invite-clinic></div>
+        <label class="field"><span>Nova senha</span><input name="novaSenha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required><small>Use pelo menos 8 caracteres.</small></label>
+        <label class="field"><span>Confirmar senha</span><input name="confirmacaoSenha" type="password" minlength="8" maxlength="72" autocomplete="new-password" required></label>
+        <div class="form-message" data-invite-message role="alert" hidden></div>
+        <button class="button button--primary button--wide" type="submit"><span>Ativar meu acesso</span><i class="fa-solid fa-shield-check"></i></button>
+      </form>
+      <div data-invite-error hidden><span class="eyebrow">Link indisponível</span><h1>Não foi possível usar este convite</h1><p data-invite-error-message></p><a class="button button--secondary" href="#/">Voltar ao login</a></div>
+    </div>
+  </section>
+
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__top">
+        <a class="brand" href="#/dashboard" aria-label="Ir ao painel">
+          <span class="brand__mark" aria-hidden="true"><i class="fa-solid fa-staff-snake"></i></span>
+          <span><strong>Sistema</strong><small>clínico</small></span>
+        </a>
+        <button class="icon-button sidebar-close" type="button" aria-label="Fechar menu"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <nav class="primary-nav" aria-label="Navegação principal">
+        <span class="nav-label">Cuidado</span>
+        <a href="#/dashboard" data-route="dashboard"><i class="fa-solid fa-chart-pie"></i><span>Visão geral</span></a>
+        <a href="#/pacientes" data-route="pacientes"><i class="fa-solid fa-hospital-user"></i><span>Pacientes</span></a>
+        <a href="#/consulta/nova" data-route="consulta"><i class="fa-solid fa-notes-medical"></i><span>Nova consulta</span><em>+</em></a>
+        <span class="nav-label">Equipe</span>
+        <a href="#/medicos" data-route="medicos"><i class="fa-solid fa-user-doctor"></i><span>Médicos</span></a>
+        <a href="#/uso-ia" data-route="uso-ia"><i class="fa-solid fa-coins"></i><span>Uso da IA</span></a>
+        <a href="#/perfil" data-route="perfil"><i class="fa-solid fa-id-card-clip"></i><span>Meu perfil</span></a>
+      </nav>
+      <div class="sidebar__status">
+        <span class="status-orb"></span>
+        <div><strong>Ambiente clínico</strong><small>Conexão protegida</small></div>
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <button class="user-card" id="logout-button" type="button">
+        <span class="avatar" id="sidebar-avatar">MN</span>
+        <span><strong id="sidebar-user">Médico</strong><small>Sair do sistema</small></span>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      </button>
+    </aside>
+
+    <div class="app-main">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" type="button" aria-label="Abrir menu"><i class="fa-solid fa-bars-staggered"></i></button>
+        <div class="topbar__context"><span id="page-eyebrow">Cuidado conectado</span><h2 id="page-title">Visão geral</h2></div>
+        <div class="topbar__actions">
+          <span class="date-pill" id="current-date"><i class="fa-regular fa-calendar"></i></span>
+          <button class="icon-button theme-toggle" type="button" aria-label="Alternar tema"><i class="fa-solid fa-moon"></i></button>
+          <button class="profile-chip" type="button" data-go-profile><span class="avatar" id="top-avatar">MN</span><span><strong id="top-user">Médico</strong><small>CRM</small></span></button>
+        </div>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <div class="route-progress" id="route-progress" hidden><span></span></div>
+        <div id="view" aria-live="polite"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <dialog class="modal modal--wide" id="patient-dialog">
+    <form method="dialog" class="modal__frame" id="patient-form">
+      <header class="modal__header"><div><span class="eyebrow">Gestão cadastral</span><h2 id="patient-dialog-title">Novo paciente</h2><p>O prontuário único será criado junto ao cadastro.</p></div><button class="icon-button" value="cancel" formnovalidate aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></header>
+      <div class="modal__body">
+        <div class="form-section"><h3><i class="fa-regular fa-address-card"></i>Identificação</h3><div class="form-grid">
+          <input name="id" type="hidden">
+          <label class="field field--span-2"><span>Nome completo</span><input name="nomeCompleto" required maxlength="150"></label>
+          <label class="field"><span>CPF</span><input name="cpf" inputmode="numeric" required maxlength="14" data-mask="cpf"></label>
+          <label class="field"><span>Data de nascimento</span><input name="dataNascimento" type="date" required></label>
+          <label class="field"><span>Sexo</span><select name="sexo"><option value="">Não informado</option><option>Feminino</option><option>Masculino</option><option>Intersexo</option><option>Outro</option></select></label>
+          <label class="field"><span>Nome da mãe</span><input name="nomeMae" maxlength="150"></label>
+          <label class="field"><span>Município de nascimento</span><input name="naturalidadeMunicipio" maxlength="100"></label>
+          <label class="field"><span>UF de nascimento</span><input name="naturalidadeEstado" maxlength="2" data-uppercase></label>
+        </div></div>
+        <div class="form-section"><h3><i class="fa-solid fa-phone"></i>Contato e cobertura</h3><div class="form-grid">
+          <label class="field"><span>Telefone</span><input name="telefone" inputmode="tel" data-mask="phone"></label>
+          <label class="field"><span>E-mail</span><input name="email" type="email" maxlength="180"></label>
+          <label class="field field--span-2"><span>Plano de saúde</span><input name="planoSaude" maxlength="100"></label>
+        </div></div>
+        <div class="form-section"><h3><i class="fa-solid fa-location-dot"></i>Endereço</h3><div class="form-grid form-grid--address">
+          <label class="field"><span>CEP</span><input name="cep" inputmode="numeric" maxlength="9" data-mask="cep"></label>
+          <label class="field field--span-2"><span>Logradouro</span><input name="logradouro" maxlength="150"></label>
+          <label class="field"><span>Número</span><input name="numero" maxlength="20"></label>
+          <label class="field"><span>Complemento</span><input name="complemento" maxlength="100"></label>
+          <label class="field"><span>Bairro</span><input name="bairro" maxlength="100"></label>
+          <label class="field"><span>Município</span><input name="municipio" maxlength="100"></label>
+          <label class="field"><span>UF</span><input name="estado" maxlength="2" data-uppercase></label>
+        </div></div>
+        <div class="form-section initial-record"><h3><i class="fa-solid fa-file-medical"></i>Prontuário inicial <small>somente no cadastro</small></h3><div class="form-grid">
+          <label class="field"><span>Alergias conhecidas</span><textarea name="alergiasConhecidas" rows="3"></textarea></label>
+          <label class="field"><span>Medicamentos contínuos</span><textarea name="medicamentosUsoContinuo" rows="3"></textarea></label>
+          <label class="field field--span-2"><span>Histórico familiar</span><textarea name="historicoFamiliar" rows="3"></textarea></label>
+        </div></div>
+        <div class="form-message" data-form-message role="alert" hidden></div>
+      </div>
+      <footer class="modal__footer"><button class="button button--ghost" value="cancel" formnovalidate>Cancelar</button><button class="button button--primary" value="default"><i class="fa-solid fa-check"></i>Salvar paciente</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="doctor-dialog">
+    <form method="dialog" class="modal__frame" id="doctor-form">
+      <header class="modal__header"><div><span class="eyebrow">Equipe clínica</span><h2>Novo médico</h2><p>O profissional receberá acesso ao ambiente clínico.</p></div><button class="icon-button" value="cancel" formnovalidate aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></header>
+      <div class="modal__body form-grid">
+        <label class="field field--span-2"><span>Nome completo</span><input name="nomeCompleto" required maxlength="150"></label>
+        <label class="field"><span>E-mail</span><input name="email" type="email" required></label>
+        <label class="field"><span>CRM</span><input name="crm" required></label>
+        <label class="field"><span>CPF</span><input name="cpf" inputmode="numeric" data-mask="cpf" required></label>
+        <label class="field"><span>Nascimento</span><input name="dataNascimento" type="date" required></label>
+        <label class="field"><span>Clínica</span><input name="clinicaAtuacao" readonly style="background: var(--surface-2); cursor: not-allowed;"></label>
+        <label class="field field--span-2"><span>Especialidades <small>separadas por vírgula</small></span><input name="especialidades"></label>
+        <div class="form-message field--span-2" data-form-message role="alert" hidden></div>
+      </div>
+      <footer class="modal__footer"><small class="modal__hint"><i class="fa-solid fa-envelope-circle-check"></i> O médico receberá um link seguro para definir a própria senha.</small><button class="button button--ghost" value="cancel" formnovalidate>Cancelar</button><button class="button button--primary" value="default"><i class="fa-solid fa-paper-plane"></i>Cadastrar e convidar</button></footer>
+    </form>
+  </dialog>
+
+  <script src="assets/js/config.js"></script>
+  <script src="https://unpkg.com/jspdf@4.2.1/dist/jspdf.umd.min.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
